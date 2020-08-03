@@ -10,14 +10,40 @@ $(function(){
 	//新建试题
 	addShiti();
 	//查看全部试题
-	$("#selectAll").click(QueryAll);
+	QueryAll(1);
 })
 
 
 
 
-function QueryAll(){
-	console.log("1111111");
+function QueryAll(page){
+	$("#selectAll").click(function(){
+		var $rdiv = $(".divkuang");
+		$rdiv.empty();
+		var data;
+		if(page) pageNum = page;
+		$.ajax({
+			url:"/exam/shiti/findpage.do",
+			type:"post",
+			async:false,
+			data:{"pageNum":pageNum,"pageSize":pageSize},
+			datatype:"json",
+			success:function(result){
+				data = result.data;
+			},
+			error:function(){
+				alert("获取试题列表失败");
+			}
+		})
+		var list = data.list;
+		totalPage = data.totalPage;
+		totalRecord = data.totalRecord;
+		start = data.start;
+		end = data.end;
+		for(var i = 0; i<list.length;i++){
+			console.log(list[i]);
+		}
+	});
 }
 
 
