@@ -1,0 +1,35 @@
+.divkuang{
+	width:1000px;
+	height:500px;
+	overflow-x:hidden;
+	overflow-y:hidden;
+	border:2px solid red;
+	overflow-y:auto;
+}
+table,th,td{
+	border:1px solid black;
+}
+
+.btncheck{
+	background-color:cornflowerblue;/*按钮背景颜色*/
+}
+.fybtn > input{
+	width: 200px;/*设置按钮宽度*/
+	height: 30px;/*设置按钮高度*/
+	border-radius: 3px;/*让按钮变得圆滑一点*/
+	border-width: 0;/*消去按钮丑的边框*/
+	margin: 0;
+	outline: none;/*取消轮廓*/
+	font-family: KaiTi;/*字体设置为楷体*/
+	font-size: 17px;/*设置字体大小*/
+	text-align: center;/*字体居中*/
+	cursor: pointer;/*设置鼠标箭头手势*/
+}
+
+.daanol{
+	list-style-type:upper-alpha;
+}
+
+.daanol > button{
+	margin-bottom: 10px;
+}

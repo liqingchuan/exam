@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ 
+<mapper namespace="web.system.user.dao.UserDao">
+    <!-- parameterType:参数类型,填写实体类的完整名字 -->
+    <select id="findAllUser" resultType="web.system.user.entity.UserEntity">
+        select * from ZS_USER 
+    </select>
+    
+    <select id="findUser" parameterType="String" resultType="web.system.user.entity.UserEntity">
+        select * from ZS_USER where nickname like '%'||#{userparam}||'%' or username like '%'||#{userparam}||'%'
+    </select>
+    
+    <select id="findPage" resultType="web.system.user.entity.UserEntity">
+    	select * from (select rownum as rowno, u.* from ZS_USER u where rownum &lt;= #{endIndex})
+    	where rowno &gt; #{startIndex}
+    </select>
+    
+    <select id="findOneUser" resultType="web.system.user.entity.UserEntity">
+        select * from ZS_USER  
+        where nickname like '%'||#{userparam}||'%' or username like '%'||#{userparam}||'%'
+    </select>
+    
+    
+    
+    
+    <delete id="deleteUser" parameterType="String">
+    	delete from ZS_USER where id = #{user_id}
+    </delete>
+    
+    <update id="saveUser" parameterType="String">
+    	update ZS_USER set username = #{username},nickname=#{usernick},role_id=#{roleid},role_name=#{rolename}
+    	where id = #{userid}
+    </update>
+    <insert id="addUser" parameterType="String">
+    	insert into ZS_USER (id,username,password,nickname,role_id,role_name)
+    	values (#{userid},#{username},#{password},#{nickname},#{roleid},#{rolename})
+    </insert>
+    
+    
+</mapper>

@@ -1,0 +1,15 @@
+eclipse.preferences.version=1
+encoding//src/main/java/web/auth=UTF-8
+encoding//src/main/java/web/auth/Page.java=UTF-8
+encoding//src/main/java/web/system/user/controller/UserController.java=UTF-8
+encoding//src/main/java/web/system/user/service/UserServiceImpl.java=UTF-8
+encoding//src/main/java/web/util/UuidUtil.java=UTF-8
+encoding//src/main/resources/conf/config.properties=UTF-8
+encoding//src/main/webapp/Viewhtml/chafen.html=UTF-8
+encoding//src/main/webapp/Viewhtml/kaoshi.html=UTF-8
+encoding//src/main/webapp/Viewhtml/kemu.html=UTF-8
+encoding//src/main/webapp/Viewhtml/piyue.html=UTF-8
+encoding//src/main/webapp/Viewhtml/role.html=UTF-8
+encoding//src/main/webapp/Viewhtml/shijuan.html=UTF-8
+encoding//src/main/webapp/Viewhtml/shiti.html=UTF-8
+encoding//src/main/webapp/Viewhtml/user.html=UTF-8

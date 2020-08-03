@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ 
+<mapper namespace="web.system.question.dao.ShitiDao">
+    <!-- parameterType:参数类型,填写实体类的完整名字 -->
+    <select id="findPage" resultType="web.system.question.entity.ShitiEntity">
+        select * from
+        (select rownum as rowno, t.* from V_TM t where rownum &lt;= #{end})
+        where rowno &gt; #{start}
+    </select>
+    
+    <select id="findAll" resultType="web.system.question.entity.ShitiEntity">
+        select * from V_TM
+    </select>
+    
+    <select id="findById" resultType="web.system.question.entity.ShitiEntity">
+        select * from V_TM where id=#{shitiId}
+    </select>
+
+    <select id="queryShiti" resultType="web.system.question.entity.ShitiEntity">
+        select * from V_TM where tm_name  like '%'||#{shitiParam}||'%'
+    </select>
+    
+    <select id="queryDaan" resultType="web.system.question.entity.DaanEntity">
+        select * from ZS_DA where st_id = #{shitiId}
+    </select>
+    
+    
+    <delete id="deleteShiti">
+    	delete from ZS_TM where id=#{shitiId}
+    </delete>
+    
+    <delete id="deleteDaan">
+    	delete from ZS_DA where st_id = #{shitiId}
+    </delete>
+    
+    <update id="updateTimu">
+    	update ZS_TM set tm_name = #{timu} where id = #{shitiId}
+    </update>
+    
+    <update id="updateDaan">
+    	update ZS_DA set da_name = #{daan} where st_id = #{shitiId}
+    </update>
+    
+    <insert id="insertDaan">
+    	insert into ZS_DA (ID,ST_ID,DA_NAME,CODE) values (#{id},#{st_id},#{da_name},#{code})
+    </insert>
+    
+    <insert id="insertShiti">
+    	insert into ZS_TM (ID,KM_ID,TM_NAME,ST_LB) values (#{id},#{km_id},#{tm_name},#{st_lb})
+    </insert>
+    
+</mapper>
