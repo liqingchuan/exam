@@ -10,18 +10,22 @@ $(function(){
 	//新建试题
 	addShiti();
 	//查看全部试题
-	QueryAll(1);
+	QueryAll();
 })
 
 
 
 
-function QueryAll(page){
-	$("#selectAll").click(function(){
+function QueryAll(){
+	
+	pageNum = 1;
+	
+	$("#selectAll").click(selectAll);
+	
+	function selectAll(){
 		var $rdiv = $(".divkuang");
 		$rdiv.empty();
 		var data;
-		if(page) pageNum = page;
 		$.ajax({
 			url:"/exam/shiti/findpage.do",
 			type:"post",
@@ -40,10 +44,119 @@ function QueryAll(page){
 		totalRecord = data.totalRecord;
 		start = data.start;
 		end = data.end;
-		for(var i = 0; i<list.length;i++){
-			console.log(list[i]);
+		
+		var $div = loadShitiDan(list);
+
+		$rdiv.html($div);
+		
+		var $fenye = $("#fypage");
+
+		fenyeBtnLoad($fenye);
+		
+		$fenye.on("click","input",function(){
+			var btn = $(this).val();
+			if(!isNaN(btn)){
+				pageNum = btn;
+			}
+			if(btn=="<<"){
+				pageNum = 1;
+			}
+			if(btn=="<"&&pageNum>1){
+				--pageNum;
+			}
+			if(btn==">"&&pageNum<end){
+				++pageNum;
+			}
+			if(btn==">>"){
+				pageNum=totalPage;
+			}
+			selectAll();
+		});
+	}
+	
+}
+
+
+
+/**
+ * 
+ * 加载试题和答案列表
+ * 
+ * @param list
+ * @returns
+ */
+function loadShitiDan(list){
+	var stlb = -1;
+	
+	var $div = $('<div style="margin-left: 30px;" ></div>');
+	
+	for(var i = 0; i<list.length;i++){
+		if(stlb != list[i].st_lb){
+			stlb = list[i].st_lb;
+			if(stlb==0){
+				$div.append('<h4>单选题</h4>');
+			}
+			if(stlb==1){
+				$div.append('<h4>多选题</h4>');
+			}
+			if(stlb==2){
+				$div.append('<h4>判断题</h4>');
+			}
+			if(stlb==3){
+				$div.append('<h4>解答题</h4>');
+			}
 		}
-	});
+		$div.append('<p>第'+(i+1)+'题： '+list[i].tm_name+'</p>');
+		var dan = getDaan(list[i].id);
+		if(dan.length>0){
+			if(stlb==0){
+				var $ol = $('<ol style="list-style-type:upper-alpha"></ol>');
+				for(var j = 0;j<dan.length;j++){
+					//code来确定正确答案是默认选中的
+					var code = dan[j].code=="0" ? "checked='checked'":"";
+					var $li =$('<li>'+
+									'<input type="radio" name='+list[i].id+' '+code+' disabled />'+
+									'<input type="text" value='+dan[j].da_name+' readonly="true"/>'+
+								'</li>');
+					$ol.append($li);
+				}
+				$div.append($ol);
+			}
+			if(stlb==1){
+				var $ol = $('<ol style="list-style-type:upper-alpha"></ol>');
+				for(var j = 0;j<dan.length;j++){
+					//code来确定正确答案是默认选中的
+					var code = dan[j].code=="0" ? "checked='checked'":"";
+					var $li =$('<li>'+
+									'<input type="checkbox" '+code+' οnclick="return false;" />'+
+									'<input type="text" value='+dan[j].da_name+' readonly="true"/>'+
+								'</li>');
+					$ol.append($li);
+				}
+				$div.append($ol);
+			}
+			if(stlb==2){
+				var $ol = $('<ol></ol>');
+				for(var j = 0;j<dan.length;j++){
+					//code来确定正确答案是默认选中的
+					var code = dan[j].code=="0" ? "checked='checked'":"";
+					var $li =$('<li>'+
+									'<input type="radio" name='+list[i].id+' '+code+' disabled />'+
+									'<input type="text" value='+dan[j].da_name+' readonly="true"/>'+
+								'</li>');
+					$ol.append($li);
+				}
+				$div.append($ol);
+			}
+			if(stlb==3){
+				$div.append(' 解答：<textarea name="daan"  readonly="true" >'+dan[0].da_name+'</textarea><br>');
+			}
+		}else{
+			$div.append('<h6>此题未查到答案</h6>');
+		}
+	}
+	$div.append("<span id ='fypage' ></span>");
+	return $div;
 }
 
 
@@ -178,8 +291,7 @@ function getShitiPage(){
  * 加载分页按钮
  * 
  */
-function fenyeBtnLoad(){
-	var $fenye = $("#fenye");
+function fenyeBtnLoad($fenye){
 	$fenye.empty();
 	var input = "<input type='button' value='<<'/> "+
 				"<input type='button' value='<'/> ";
@@ -201,7 +313,8 @@ function fenyeBtnLoad(){
 
 //分页按钮的单击事件
 function fenyeBtnClick(){
-	fenyeBtnLoad();
+	var $fenye = $("#fenye");
+	fenyeBtnLoad($fenye);
 	$("#fenye").on("click","input",function(){
 		var btn = $(this).val();
 		if(!isNaN(btn)){
@@ -268,7 +381,8 @@ function loadList(result){
 			$tbody.append($line);
 		}
 		//加载分页按钮
-		fenyeBtnLoad();
+		var $fenye = $("#fenye");
+		fenyeBtnLoad($fenye);
 	}else{
 		alert(result.msg);
 	}
