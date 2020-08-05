@@ -128,7 +128,7 @@ function loadShitiDan(list){
 					//code来确定正确答案是默认选中的
 					var code = dan[j].code=="0" ? "checked='checked'":"";
 					var $li =$('<li>'+
-									'<input type="checkbox" '+code+' οnclick="return false;" />'+
+									'<input type="checkbox" '+code+' disabled />'+
 									'<input type="text" value='+dan[j].da_name+' readonly="true"/>'+
 								'</li>');
 					$ol.append($li);
