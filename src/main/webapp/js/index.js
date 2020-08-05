@@ -49,7 +49,7 @@ function getUser(userid) {
 	var user;
 	if(userid){
     	$.ajax({
-    		url:"getUser.do",
+    		url:"/exam/login/getUser.do",
     		type:"post",
     		data:{"userId":userid},
     		datatype:"json",
@@ -213,6 +213,8 @@ function getMenu(){
 function menuClick(){
 	$("#liftmenu").on("click","li",function(){
 		var url = $(this).data("cd_url");
+		
+//		$("#myiframe").attr("src",viewPath+url);
 		var $rdiv = $(".divkuang");
 		$rdiv.load(viewPath+url);
 	})

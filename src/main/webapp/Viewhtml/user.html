@@ -1,38 +1,51 @@
-<script src="../js/userview/user.js"></script>
-<div style="margin-left: 10px;">
-	<h5>用户列表</h5>
-	<div>
-		<span>
-			<input id="ssinput" style="margin-bottom: 0px" type="text"/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button id="sousuo">搜索</button>
-			<input id="addUser" type="button" value="新建用户"/>
-		</span>
-	</div>
-	<br>
-	<div>
-		<table>
-			<thead>
-				<tr>
-					<th style="width: 60px;">序号</th>
-					<th style="width: 120px;">账号</th>
-					<th style="width: 160px;">用户名</th>
-					<th style="width: 100px;">角色</th>
-					<th style="width: 160px;">是否可用</th>
-					<th style="width: 60px;">操作</th>
-				</tr>
-			</thead>
-			<tbody id="usertable">
-			
-			</tbody>
-			<tfoot id="tfoot">
-				
-			</tfoot>
-		</table>
-		<!--  分页 start -->
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- <link rel="stylesheet" href="../css/responsive-tables.css">
+	<link rel="stylesheet" href="../css/addCss/border.css">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+
+	<script type="text/javascript" src="../js_util/jquery-1.9.1.min.js"></script>
+	<script src="../js_util/cooki_util.js"></script>
+	<script src="../js/userview/shiti.js"></script> -->
+	<script src="../js/userview/user.js"></script>
+	
+</head>
+<body>
+	<div style="margin-left: 10px;">
+		<h5>用户列表</h5>
 		<div>
-			<span id="fenye" class="fybtn">
-			
+			<span>
+				<input id="ssinput" style="margin-bottom: 0px" type="text"/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button id="sousuo">搜索</button>
+				<input id="addUser" type="button" value="新建用户"/>
 			</span>
 		</div>
+		<br>
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th style="width: 60px;">序号</th>
+						<th style="width: 120px;">账号</th>
+						<th style="width: 160px;">用户名</th>
+						<th style="width: 100px;">角色</th>
+						<th style="width: 160px;">是否可用</th>
+						<th style="width: 60px;">操作</th>
+					</tr>
+				</thead>
+				<tbody id="usertable">
+				
+				</tbody>
+				<tfoot id="tfoot">
+					
+				</tfoot>
+			</table>
+			<!--  分页 start -->
+			<div>
+				<span id="fenye" class="fybtn">
+				
+				</span>
+			</div>
+		</div>
 	</div>
-</div>
-
+</body>

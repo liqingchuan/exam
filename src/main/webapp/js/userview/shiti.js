@@ -14,8 +14,6 @@ $(function(){
 })
 
 
-
-
 function QueryAll(){
 	
 	pageNum = 1;
