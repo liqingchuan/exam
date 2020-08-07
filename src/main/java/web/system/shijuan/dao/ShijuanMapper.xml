@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ 
+<mapper namespace="web.system.shijuan.dao.ShijuanDao">
+    <!-- parameterType:参数类型,填写实体类的完整名字 -->
+    <select id="findAll" resultType="web.system.shijuan.entity.ShijuanEntity">
+        select * from ZS_SJ
+    </select>
+    
+    <select id="findPage" resultType="web.system.shijuan.entity.ShijuanEntity">
+        select * from 
+        	(select rownum as rowno , t.* from V_SJ t where rownum &lt;= #{endIndex} order by createtime)
+        where rowno &gt; #{startIndex}
+    </select>
+    
+    <select id="findByid" resultType="web.system.shijuan.entity.ShijuanEntity">
+        select * from V_SJ where id=#{id}
+    </select>
+    <delete id="deleteShijuan">
+    	delete from ZS_SJ where id=#{id}
+    </delete>
+    <delete id="deleteShijuanToShiti">
+    	delete from ZS_SJ_ST where sj_id=#{id}
+    </delete>
+    
+</mapper>

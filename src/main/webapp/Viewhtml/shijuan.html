@@ -1,1 +1,55 @@
-<p>试卷</p>
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- <link rel="stylesheet" href="../css/responsive-tables.css">
+	<link rel="stylesheet" href="../css/addCss/border.css">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+
+	<script type="text/javascript" src="../js_util/jquery-1.9.1.min.js"></script> 
+	<script src="../js_util/vue.js"></script>-->
+</head>
+<body>
+	<div style="margin-left: 10px;">
+		<h5>试卷列表</h5>
+		<div>
+			<span>
+				<input id="ssinput" style="margin-bottom: 0px" type="text"/>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button id="sousuo">搜索</button>
+				<input id="addUser" type="button" value="新建试卷"/>
+			</span>
+		</div>
+		<br>
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th style="width: 60px;">序号</th>
+						<th style="width: 120px;">试卷名称</th>
+						<th style="width: 160px;">科目</th>
+						<th style="width: 160px;">开考时间</th>
+						<th style="width: 160px;">结束时间</th>
+						<th style="width: 100px;">状态</th>
+						<th style="width: 60px;">操作</th>
+					</tr>
+				</thead>
+				<tbody id="tbody">
+					<!-- <tr v-for="(item, index) in datas" >
+						<td>{{index+1}}</td>
+						<td>{{item.name}}</td>
+						<td>{{item.km}}</td>
+						<td>{{item.code}}</td>
+						<td><button>+</button><button>x</button></td>
+					</tr> -->
+				</tbody>
+				<tfoot id="tfoot">
+				</tfoot>
+			</table>
+			<!--  分页 start -->
+			<div>
+				<span id="fenye" class="fybtn">
+				
+				</span>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="../js/userview/shijuan.js"></script>
