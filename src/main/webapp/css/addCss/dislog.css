@@ -1,0 +1,45 @@
+/* .background{
+    background-color: rgba(0,0, 0, 0.8);设置透明度为0.8，以突出遮罩效果
+} */
+#popLayer{
+    position: absolute;
+    display:none;
+    left:0;
+    top:0;
+    z-index:10;
+    background:#DCDBDC;
+    -moz-opacity: 0.8;
+    opacity:.80;
+    filter: alpha(opacity=80);/* 只支持IE6、7、8、9 */
+}
+.dialog{
+	display:none;
+    background-color: rgba(255,255, 255, 1);
+    width: 60%;
+    height: 600px;
+    border-radius: 5px;
+    z-index: 11;/*优先*/
+    text-align: center;
+    /* 实现对浏览器窗口的垂直居中 */
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+/* 弹出框的提示文字部分 */
+.header{
+    height: 10%;
+    line-height: 60px;
+    margin: 0 auto;
+}
+.body{
+	height: 80%;
+	overflow-y:auto; 
+	overflow-x:auto; 
+}
+
+/* 弹出框的两个按钮部分 */
+.footer{
+    height: 10%;
+    flex-direction: row;
+}

@@ -161,9 +161,27 @@ function shitiClick(){
 		}
 		//点击的是查看
 		if($(this).val()=='查'){
-			viewClick(shiti);
+			window.open('/exam/shijuan/sj_view.do?shijuanId='+shijuanId);
 		}
 	})
+}
+
+function getShitiBySjId(shijuanId){
+	var stlist;
+	$.ajax({
+		url:"/exam/shijuan/getShitiBySjId.do",
+		type:"post",
+		data:{"shijuanId":shijuanId},
+		datatype:"json",
+		async:false,
+		success:function(result){
+			stlist = result.data;
+		},
+		error:function(){
+			alert("获取试题失败");
+		}
+	})
+	return stlist;
 }
 
 

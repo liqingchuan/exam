@@ -5,12 +5,12 @@ $(function(){
 	getMenu();
 	//动态定义菜单单击事件
 	menuClick();
-	//退出登录
-	exit();
+	
+	exit()
 })
 
 //当前登录用户id
-var userId = getCookie("userId");
+var userId = $.cookie("userId");
 //右侧小页面路径
 var viewPath = "../Viewhtml/";
 
@@ -35,7 +35,7 @@ var end;
  */
 function exit(){
 	$("#exit").click(function(){
-		delCookie("userId");
+		$.cookie('userId',null,{ path: '/'});
 		window.location.href="/exam/login/toLogin.do";
 	});
 }
@@ -49,7 +49,7 @@ function getUser(userid) {
 	var user;
 	if(userid){
     	$.ajax({
-    		url:"/exam/login/getUser.do",
+    		url:"getUser.do",
     		type:"post",
     		data:{"userId":userid},
     		datatype:"json",

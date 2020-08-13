@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="../js_util/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="../js_util/vue.js"></script>
+<link rel="stylesheet" href="../css/addCss/dislog.css" type="text/css">
+<script type="text/javascript">
+/**
+ *对Date的扩展，将 Date 转化为指定格式的String
+ *月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
+ *年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
+ *例子：
+ *(new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
+ *(new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18
+ */
+Date.prototype.format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1, //月份
+        "d+": this.getDate(), //日
+        "h+": this.getHours(), //小时
+        "m+": this.getMinutes(), //分
+        "s+": this.getSeconds(), //秒
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+        "S": this.getMilliseconds() //毫秒
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}
+function popBox(){
+    var popBox = document.getElementById('popBox');
+    var popLayer = document.getElementById('popLayer');
+
+    popLayer.style.width = document.body.scrollWidth + "px";
+    popLayer.style.height = document.body.scrollHeight + "px";
+
+    popLayer.style.display = "block";
+    popBox.style.display = "block";
+}//end func popBox()
+function closeBox(){
+    var popBox = document.getElementById('popBox');
+    var popLayer = document.getElementById('popLayer');
+
+    popLayer.style.display = "none";
+    popBox.style.display = "none";
+}//end func popBox()
+</script>
+</head>
+<body>
+	<div id = "app">
+		<div id="popLayer">
+		
+		</div>
+		<div id="popBox" class="dialog">
+			<p class="header">请选择试题</p>
+			<div class="body">
+				<p v-if="allSt_km.length===0">没有可添加试题</p>
+				<ol>
+					<li v-for="st in allSt_km" style="text-align:left;">
+						<input type="checkbox" v-model="addSts" :value="st.id" />
+						{{st.tm_name}}
+					</li>
+				</ol>
+			</div>
+			<div class="footer">
+			    <button v-on:click="cancel">取消</button>
+			    <button v-on:click="save">确认添加</button>
+			</div>
+		</div>
+		<div>
+			<h2 style="text-align:center;">{{ sj.sj_name }}</h2>
+			<p style="text-align:center;">
+				科目:  {{ sj.km_name }}  ||  
+				开考时间 : {{ (new Date(sj.start_time)).format("yyyy-MM-dd hh:mm:ss") }} || 
+				结束时间 : {{ (new Date(sj.end_time)).format("yyyy-MM-dd hh:mm:ss") }}
+			</p>
+		</div>
+		<div v-for="(st,index) in stlist">
+			<p><input type="checkbox" v-model="delStIds" :value="st.id" /> 第{{ index+1 }}题（{{ st.st_lb=='0'? '单选':(st.st_lb=='1' ? '多选':(st.st_lb=='2'?'判断':'解答')) }}）： {{ st.tm_name }} </p>
+			<div>
+				<ol v-if="st.st_lb==='0'" style="list-style-type:upper-alpha">
+					<li v-for="da in st.dans"><input type="radio" :name="st.id" > {{ da.da_name }}</li>
+				</ol>
+				<ol v-if="st.st_lb==='1'" style="list-style-type:upper-alpha">
+					<li v-for="da in st.dans"><input type="checkbox" > {{ da.da_name }}</li>
+				</ol>
+				<ol v-if="st.st_lb==='2'" style="list-style-type:upper-alpha">
+					<li v-for="da in st.dans"><input type="radio" :name="st.id"> {{ da.da_name }}</li>
+				</ol>
+				<textarea v-if="st.st_lb==='3'" rows="5" cols="50"></textarea>
+			</div>
+		</div>
+		<br>
+		<input type="button" value="批量删除" v-on:click="delSt" >
+		<input type="button" value="添加试题" v-on:click="addSt" >
+		<br>
+		<br>
+	</div>
+</body>
+<script type="text/javascript">
+	$(function(){
+		vm.getSj();
+		vm.getSt();
+	})
+	var url = window.location.href;
+	var shijuanId = url.substr(url.indexOf("?")+1,url.length).split("=")[1];
+
+	var vm = new Vue({
+		el : '#app',
+		data : {
+			sj : '',
+			stlist : [],
+			delStIds : [],
+			allSt_km : [],
+			addSts : []
+		},
+		methods : {
+			getSj : function(){
+				$.ajax({
+		    		url:"/exam/shijuan/findByid.do",
+		    		type:"post",
+		    		data:{"shijuanId":shijuanId},
+		    		datatype:"json",
+		    		//async:false,
+		    		success:function(result){
+		    			if(result.status=="0"){
+		    				vm.sj = result.data;
+		    			}else{
+		    				vm.sj = result.msg;
+		    			}
+		    		},
+		    		error:function(){
+		    			alert("试卷查询失败");
+		    		}
+		    	});
+			},
+			getSt : function(){
+				$.ajax({
+					url:"/exam/shijuan/getShitiBySjId.do",
+					type:"post",
+					data:{"shijuanId":shijuanId},
+					datatype:"json",
+					//async:false,
+					success:function(result){
+						vm.stlist = result.data;
+					},
+					error:function(){
+						alert("获取试题失败");
+					}
+				})
+			},
+			getStByKm : function(){
+				$.ajax({
+					url:"/exam/shijuan/getShitiByKm.do",
+					type:"post",
+					data:{
+						"km_id":vm.sj.km_id,
+						"sj_id":shijuanId
+						},
+					datatype:"json",
+					//async:false,
+					success:function(result){
+						vm.allSt_km = result.data;
+					},
+					error:function(){
+						alert("获取试题失败");
+					}
+				})
+			},
+			delSt : function(){
+				if(vm.delStIds.length>0){
+					$.ajax({
+						url:"/exam/shijuan/deleteStToSj.do",
+						type:"post",
+						data:{
+							"shijuanId" : shijuanId,
+							"shitiIds": vm.delStIds
+							},
+						datatype:"application/json",
+						//async:false,
+						success:function(result){
+							alert(result.msg);
+							window.location.reload();
+						},
+						error:function(){
+							alert("获取试题失败");
+						}
+					})
+				}else{
+					alert("请选择试题");
+				}
+			},
+			addSt : function(){
+				//$("body").addClass("background");
+				popBox();
+				vm.getStByKm();
+			},
+			cancel : function(){
+				closeBox();
+			},
+			save : function(){
+				var flag = false;
+				$.ajax({
+					url:"/exam/shijuan/addStToSj.do",
+					type:"post",
+					data:{
+						"shijuanId" : shijuanId,
+						"shitiIds": vm.addSts
+						},
+					datatype:"application/json",
+					async:false,
+					success:function(result){
+						if(result.status=='0'){
+							flag = true;
+						}
+					},
+					error:function(){
+						alert("获取试题失败");
+					}
+				})
+				if(flag){
+					closeBox();
+					window.location.reload();
+				}else{
+					alert("保存失败");
+				}
+			}
+			
+		}
+		
+	})
+</script>
+</html>

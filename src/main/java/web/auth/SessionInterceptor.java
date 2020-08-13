@@ -19,16 +19,8 @@ public class SessionInterceptor implements HandlerInterceptor{
 			throws Exception {
 		Cookie[] cookies = request.getCookies();
 		if(cookies==null) {
-			response.sendRedirect("toLogin.do");
+			response.sendRedirect("/exam/login/toLogin.do");
 			return false;
-		}else {
-			for(Cookie c : cookies) {
-				 if(dao.findById(c.getValue())==null) {
-					 response.sendRedirect("toLogin.do");
-					 return false;
-				 }
-			}
-			
 		}
 		return true;
 	}

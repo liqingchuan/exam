@@ -17,11 +17,42 @@
     <select id="findByid" resultType="web.system.shijuan.entity.ShijuanEntity">
         select * from V_SJ where id=#{id}
     </select>
+    
+    <select id="findShitiBySjId" resultType="web.system.question.entity.ShitiEntity">
+    	select * from v_tm a 
+    		where exists (select b.* from zs_sj_st b where a.id= b.ST_ID and SJ_ID=#{sj_id}) order by a.st_lb
+    </select>
+    
     <delete id="deleteShijuan">
     	delete from ZS_SJ where id=#{id}
     </delete>
+    
     <delete id="deleteShijuanToShiti">
     	delete from ZS_SJ_ST where sj_id=#{id}
     </delete>
+    
+    <delete id="deleteStById">
+    	delete from ZS_SJ_ST where SJ_ID=#{sj_id} and ST_ID in 
+		 <foreach item="ids" index="index" collection="st_ids" open="(" separator="," close=")">
+		   #{ids}
+		 </foreach>
+    </delete>
+    
+    <select id="queryDaan" resultType="web.system.question.entity.DaanEntity">
+        select * from ZS_DA where st_id = #{shitiId}
+    </select>
+    
+    <select id="findShitiByKm" resultType="web.system.question.entity.ShitiEntity">
+        select * from v_tm a 
+        where a.KM_ID=#{km_id} and not exists 
+        (select b.* from zs_sj_st b where a.ID=b.ST_ID and b.SJ_ID=#{sj_id})
+    </select>
+    
+    <insert id="addShiti">
+    	insert into zs_sj_st (sj_id,st_id)
+			<foreach item = "item" collection="st_sjs" separator="UNION ALL">
+                select #{item.sj_id}, #{item.st_id} from dual
+   		 	</foreach>
+    </insert>
     
 </mapper>

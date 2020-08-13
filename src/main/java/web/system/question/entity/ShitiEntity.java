@@ -1,6 +1,10 @@
 package web.system.question.entity;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import org.eclipse.jdt.internal.compiler.lookup.TypeConstants.DangerousMethod;
 
 /**
  * 
@@ -21,7 +25,11 @@ public class ShitiEntity implements Serializable{
 	private String tm_name;
 	
 	private String st_lb;
+	
+	private Date create_time;
 
+	private List<DaanEntity> dans;
+	
 	public String getId() {
 		return id;
 	}
@@ -62,10 +70,26 @@ public class ShitiEntity implements Serializable{
 		this.st_lb = st_lb;
 	}
 
+	public List<DaanEntity> getDans() {
+		return dans;
+	}
+
+	public void setDans(List<DaanEntity> dans) {
+		this.dans = dans;
+	}
+
+	public Date getCreate_time() {
+		return create_time;
+	}
+
+	public void setCreate_time(Date create_time) {
+		this.create_time = create_time;
+	}
+
 	@Override
 	public String toString() {
 		return "ShitiEntity [id=" + id + ", km_id=" + km_id + ", km_name=" + km_name + ", tm_name=" + tm_name
-				+ ", st_lb=" + st_lb + "]";
+				+ ", st_lb=" + st_lb + ", create_time=" + create_time + ", dans=" + dans + "]";
 	}
 
 	

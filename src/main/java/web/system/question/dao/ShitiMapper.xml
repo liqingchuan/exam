@@ -6,7 +6,7 @@
     <!-- parameterType:参数类型,填写实体类的完整名字 -->
     <select id="findPage" resultType="web.system.question.entity.ShitiEntity">
         select * from
-        (select rownum as rowno, t.* from (select * from V_TM order by st_lb) t where rownum &lt;= #{end} )
+        (select rownum as rowno, t.* from (select * from V_TM order by st_lb asc, CREATE_TIME) t where rownum &lt;= #{end} )
         where rowno &gt; #{start}
     </select>
     

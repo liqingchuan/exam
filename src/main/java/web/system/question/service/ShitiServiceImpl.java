@@ -99,12 +99,11 @@ public class ShitiServiceImpl implements ShitiService {
 		dao.deleteDaan(shitiId);
 		dao.updateTimu(shitiId, timu);
 		if(daan.length()>2) {
-			String s1 = daan.substring(2, daan.length()-2);
-			String ss[] = s1.split("\\}\\,\\{");
-			for(String s:ss) {
-				String s2[] = s.split("\\,");
-				String da_name = s2[0].substring(s2[0].indexOf(":")+1, s2[0].length());
-				String code = s2[1].substring(s2[1].indexOf(":")+1, s2[1].length());
+			String daans[] = daan.substring(2, daan.length()-2).replace("\"", "").split("\\}\\,\\{");
+			for(String da:daans) {
+				String dans[] = da.split("\\,");
+				String da_name = dans[0].substring(dans[0].indexOf(":")+1, dans[0].length());
+				String code = dans[1].substring(dans[1].indexOf(":")+1, dans[1].length());
 				dao.insertDaan(UuidUtil.idNoline(), shitiId, da_name, code);
 			}
 		}

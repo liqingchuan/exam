@@ -25,14 +25,14 @@
 	<!-- MVC扫描 -->
 	<mvc:annotation-driven/>
 	<!-- 配置拦截器 -->
-<!-- 	<mvc:interceptors>
+ 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/login/toLogin.do"/>
 			<mvc:exclude-mapping path="/login/login.do"/>
 			<bean class="web.auth.SessionInterceptor"/>
 		</mvc:interceptor>
-	</mvc:interceptors> -->
+	</mvc:interceptors>
 	<!-- 配置viewResolver -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="order" value="1"/>

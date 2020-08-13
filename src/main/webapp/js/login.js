@@ -23,7 +23,10 @@ $(function(){
 				success:function(result){
 					if(result.status=="0"){
 						var userId = result.data.id;
-						addCookie("userId",userId,2);
+						$.cookie('userId',userId, {
+							path:'/',
+							expires :new Date().getTime() + (60 * 60 * 1000)
+							});
 						window.location.href="index.do";
 					}else{
 						alert(result.msg);
